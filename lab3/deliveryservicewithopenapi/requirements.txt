@@ -1,0 +1,8 @@
+flask
+pandas
+numpy
+sqlalchemy
+# connexion
+connexion[swagger-ui]
+sqlalchemy-utils
+sqlalchemy-bigquery

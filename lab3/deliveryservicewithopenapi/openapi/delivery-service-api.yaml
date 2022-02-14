@@ -1,0 +1,206 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Swagger Delivery Service
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:5000/v1.0
+paths:
+  /deliveries/{d_id}:
+    get:
+      summary: Get a Delivery Record
+      operationId: resources.delivery.Delivery.get
+      tags:
+        - delivery drone
+      parameters:
+        - name: d_id
+          in: path
+          description: Delivery identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Delivery Record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryOut"
+        '404':
+          description: Delivery record not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      summary: Delete a Delivery Record
+      tags:
+        - place records
+      operationId: resources.delivery.Delivery.delete
+      parameters:
+        - name: d_id
+          in: path
+          description: Delivery Record identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Record was deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyMsg"
+        '404':
+          description: Delivery record not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /deliveries/:
+    post:
+      summary: Create a Delivery
+      operationId: resources.delivery.Delivery.create
+      tags:
+        - Delivery records
+      requestBody:
+        description: Delivery Information
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeliveryIn"
+      responses:
+        '200':
+          description: Created Delivery Record
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  delivery_id:
+                    type: string
+                    description: The delivery ID
+        '500':
+          description: Record with the same name already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /deliveries/{d_id}/status:
+    put:
+      summary: Update the status of a Delivery
+      operationId: resources.status.Status.update
+      tags:
+        - Delivery records
+      parameters:
+        - name: d_id
+          in: path
+          description: Delivery identifier
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Delivery status
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Status was updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyMsg"
+        '404':
+          description: Place record not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    DeliveryIn:
+      required:
+        - customer_id
+        - provider_id
+        - package_id
+      properties:
+        customer_id:
+          format: string
+        provider_id:
+          format: string
+        package_id:
+          format: string
+        delivery_time:
+          format: string
+    DeliveryOut:
+      required:
+        - id
+      properties:
+        id:
+          type: number
+        customer_id:
+          format: string
+        package_id:
+          format: string
+        delivery_time:
+          format: string
+        status:
+          $ref: "#/components/schemas/Status"
+    Status:
+      properties:
+        status:
+          type: string
+        last_update:
+          type: string
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int64
+        message:
+          type: string
+    AnyMsg:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int64
+        message:
+          type: string
