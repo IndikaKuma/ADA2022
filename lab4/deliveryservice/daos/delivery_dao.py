@@ -7,12 +7,13 @@ from db import Base
 
 class DeliveryDAO(Base):
     __tablename__ = 'delivery'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)  # Auto generated primary key
     customer_id = Column(String)
     provider_id = Column(String)
     package_id = Column(String)
     order_time = Column(DateTime)
     delivery_time = Column(DateTime)
+    # reference to status as foreign key relationship. This will be automatically assigned.
     status_id = Column(Integer, ForeignKey('status.id'))
     # https: // docs.sqlalchemy.org / en / 14 / orm / basic_relationships.html
     # https: // docs.sqlalchemy.org / en / 14 / orm / backref.html

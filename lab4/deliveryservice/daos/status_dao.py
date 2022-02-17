@@ -6,7 +6,7 @@ from db import Base
 class StatusDAO(Base):
     __tablename__ = 'status'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True) # Auto generated primary key
     status = Column(String)
     last_update = Column(TIMESTAMP(timezone=False))
 
