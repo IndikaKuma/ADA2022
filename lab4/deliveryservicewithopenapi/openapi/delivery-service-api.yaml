@@ -12,7 +12,7 @@ paths:
       summary: Get a Delivery Record
       operationId: resources.delivery.Delivery.get
       tags:
-        - delivery drone
+        - delivery record
       parameters:
         - name: d_id
           in: path
