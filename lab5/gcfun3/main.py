@@ -27,7 +27,7 @@ def predict_diabetes(event, context):
     print('Created: {}'.format(event['timeCreated']))
     print('Updated: {}'.format(event['updated']))
 
-    project_id = os.environ.get('PROJET_ID', 'Specified environment variable is not set.')
+    project_id = os.environ.get('PROJECT_ID', 'Specified environment variable is not set.')
     model_bucket_name = os.environ.get('MODEL_BUCKET', 'Specified environment variable is not set.')
     print('Project Id: {}'.format(project_id))
 
