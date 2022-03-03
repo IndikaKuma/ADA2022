@@ -1,0 +1,196 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Swagger Place Record
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:5000/v1.0
+paths:
+  /places/{name}:
+    get:
+      summary: Get a Place Record
+      operationId: resources.place.PlaceRecord.get
+      tags:
+        - place records
+      parameters:
+        - name: name
+          in: path
+          description: Place Record name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Place Record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlaceRecord"
+        '404':
+          description: Place record not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    put:
+      summary: Update a Palcce Record
+      tags:
+        - place records
+      operationId: resources.place.PlaceRecord.put
+      parameters:
+        - name: name
+          in: path
+          description: Place Record name
+          required: true
+          schema:
+            type: string
+        - name: rating
+          in: query
+          description: Place rating
+          required: true
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: Updated Place Record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlaceRecord"
+        '404':
+          description: Place record not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      summary: Delete a Palcce Record
+      tags:
+        - place records
+      operationId: resources.place.PlaceRecord.delete
+      parameters:
+        - name: name
+          in: path
+          description: Place Record name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Record was deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteMsg"
+        '404':
+          description: Place record not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /places/:
+    post:
+      summary: Create a New Place Record
+      operationId: resources.place.PlaceRecords.post
+      tags:
+        - place records
+      requestBody:
+        description: Place Information
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlaceRecord"
+      responses:
+        '200':
+          description: Created Place Record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlaceRecord"
+        '500':
+          description: Record with the same name already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    PlaceRecord:
+      required:
+        - name
+      properties:
+        rating:
+          type: number
+          format: double
+        name:
+          type: string
+        addresses:
+          $ref: "#/components/schemas/Addresses"
+
+    Addresses:
+      type: array
+      items:
+          $ref: '#/components/schemas/Address'
+
+    Address:
+      properties:
+        postcode:
+          type: string
+        street:
+          type: string
+        houseNo:
+          type: integer
+          format: int64
+        city:
+          type: string
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int64
+        message:
+          type: string
+    DeleteMsg:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int64
+        message:
+          type: string
