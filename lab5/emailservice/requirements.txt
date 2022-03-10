@@ -1,0 +1,10 @@
+autopep8==1.4.4
+certifi==2019.9.11
+chardet==3.0.4
+idna==2.8
+pycodestyle==2.5.0
+python-http-client==3.2.1
+requests==2.22.0
+sendgrid==6.0.5
+urllib3==1.25.3
+Flask==1.0.2
