@@ -26,7 +26,7 @@ class Delivery:
         session = Session()
         # https://docs.sqlalchemy.org/en/14/orm/query.html
         # https://www.tutorialspoint.com/sqlalchemy/sqlalchemy_orm_using_query.htm
-        delivery = session.query(DeliveryDAO).filter(DeliveryDAO.id == d_id).first()
+        delivery = session.query(DeliveryDAO).filter(DeliveryDAO.id == int(d_id)).first()
 
         if delivery:
             status_obj = delivery.status
@@ -50,7 +50,7 @@ class Delivery:
     @staticmethod
     def delete(d_id):
         session = Session()
-        effected_rows = session.query(DeliveryDAO).filter(DeliveryDAO.id == d_id).delete()
+        effected_rows = session.query(DeliveryDAO).filter(DeliveryDAO.id == int(d_id)).delete()
         session.commit()
         session.close()
         if effected_rows == 0:
