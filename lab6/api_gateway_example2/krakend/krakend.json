@@ -40,8 +40,8 @@
       ],
       "extra_config": {
         "qos/ratelimit/router": {
-          "max_rate": 3,
-          "client_max_rate": 0,
+          "maxRate": 3,
+          "clientMaxRate": 0,
           "strategy": "ip"
         }
       }
