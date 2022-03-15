@@ -1,4 +1,5 @@
 {
+  "$schema": "http://www.krakend.io/schema/v3.json",
   "version": 3,
   "output_encoding": "json",
   "name": "InventoryOrderAggregate",
@@ -39,8 +40,8 @@
       ],
       "extra_config": {
         "qos/ratelimit/router": {
-          "maxRate": 3,
-          "clientMaxRate": 0,
+          "max_rate": 3,
+          "client_max_rate": 0,
           "strategy": "ip"
         }
       }
@@ -49,7 +50,7 @@
       "endpoint": "/orders/{id}",
       "method": "GET",
       "extra_config": {
-        "github.com/devopsfaith/krakend/proxy": {
+        "proxy": {
           "sequential": true
         }
       },
@@ -67,12 +68,12 @@
             "product_type": "type"
           },
           "extra_config": {
-            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+            "qos/circuit-breaker": {
               "interval": 60,
               "name": "circuit-breaker-1",
               "timeout": 40,
-              "maxErrors": 1,
-              "logStatusChange": true
+              "max_errors": 1,
+              "log_status_change": true
             }
           },
           "blacklist": []

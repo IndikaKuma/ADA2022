@@ -1,4 +1,5 @@
 {
+  "$schema": "http://www.krakend.io/schema/v3.json",
   "version": 3,
   "output_encoding": "json",
   "name": "InventoryOrderAggregate",
@@ -33,7 +34,7 @@
       "endpoint": "/orders/{id}",
       "method": "GET",
       "extra_config": {
-        "github.com/devopsfaith/krakend/proxy": {
+        "proxy": {
           "sequential": true
         }
       },
