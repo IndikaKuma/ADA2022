@@ -44,7 +44,7 @@ def pull_message(project, subscription, product):
         try:
             # When `timeout` is not set, result() will block indefinitely,
             # unless an exception is encountered first.
-            streaming_pull_future.result(timeout=60)
+            streaming_pull_future.result(timeout=60)  # see https://docs.python.org/3/library/concurrent.futures.html
         except TimeoutError:
             streaming_pull_future.cancel()
             logging.info("Streaming pull future canceled.")

@@ -44,7 +44,7 @@ def publish_message(project, topic, message, event_type):
     # event_type is a custom message attribute or meta-data. We can use our own meta-data.
     future = publisher.publish(topic_path, message, event_type=event_type)
     try:
-        future.result()
+        future.result()  # see https://docs.python.org/3/library/concurrent.futures.html
     except Exception as ex:
         future.cancel()
         logging.info(ex)

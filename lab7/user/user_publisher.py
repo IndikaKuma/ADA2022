@@ -15,7 +15,7 @@ def create_topic(project_id, topic_id):
         topic = publisher.create_topic(request={"name": topic_path})
         logging.info("Created topic: {}".format(topic.name))
     except Exception as ex:
-        logging.info(ex)   # instead, can check if there is a topic already, and only if not create a new one
+        logging.info(ex)  # instead, can check if there is a topic already, and only if not create a new one
 
 
 def publish_message(project_id, topic_id, message):
@@ -23,7 +23,7 @@ def publish_message(project_id, topic_id, message):
     topic_path = publisher.topic_path(project_id, topic_id)
     future = publisher.publish(topic_path, message)
     try:
-        future.result()
+        future.result()  # see https://docs.python.org/3/library/concurrent.futures.html
     except Exception as ex:
         logging.info(ex)
     logging.info(f"Published messages to {topic_path}.")
