@@ -4,6 +4,10 @@ import logging
 from google.cloud import pubsub_v1
 
 
+# Code is based on the following examples from Google. Please check them for more information.
+# https://github.com/googleapis/python-pubsub/blob/master/samples/snippets/publisher.py
+# https://github.com/googleapis/python-pubsub/blob/master/samples/snippets/subscriber.py
+
 def create_topic(project_id, topic_id):
     try:
         publisher = pubsub_v1.PublisherClient()
@@ -27,11 +31,11 @@ def publish_message(project_id, topic_id, message):
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
-    create_topic("ada2020-305519", "order_req")
+    create_topic("ada2022-341617", "order_req")  # make sure to change the project id - i.e., ada2022-341617
     data = {
         "product_type": "Phone",
         "quantity": 10,
         "unit_price": 232.00
     }
     data = json.dumps(data).encode("utf-8")
-    publish_message("ada2020-305519", "order_req", data)
+    publish_message("ada2022-341617", "order_req", data)

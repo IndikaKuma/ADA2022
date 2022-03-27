@@ -3,6 +3,10 @@ import logging
 from google.cloud import pubsub_v1
 
 
+# Code is based on the following examples from Google. Please check them for more information.
+# https://github.com/googleapis/python-pubsub/blob/master/samples/snippets/publisher.py
+# https://github.com/googleapis/python-pubsub/blob/master/samples/snippets/subscriber.py
+
 def create_push_subscription(project, topic, subscription_name, endpoint):
     publisher = pubsub_v1.PublisherClient()
     subscriber = pubsub_v1.SubscriberClient()
@@ -10,7 +14,7 @@ def create_push_subscription(project, topic, subscription_name, endpoint):
     subscription_path = subscriber.subscription_path(project, subscription_name)
 
     push_config = pubsub_v1.types.PushConfig(push_endpoint=endpoint)
-
+    # Wrap subscriber in a 'with' block to automatically call close() when done.
     with subscriber:
         subscription = subscriber.create_subscription(
             request={

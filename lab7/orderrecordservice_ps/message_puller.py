@@ -14,7 +14,7 @@ def pull_message(project, subscription, orders):
 
     def callback(message):
         logging.info(f"Received {message.data}.")
-        event_type = message.attributes.get("event_type")
+        event_type = message.attributes.get("event_type")   # event type as a message attribute
         data = json.loads(message.data.decode("utf-8"))
         if event_type == "StockAvailable":
             logging.info("The event StockAvailable received")

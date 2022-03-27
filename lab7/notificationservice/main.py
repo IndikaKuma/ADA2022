@@ -19,7 +19,7 @@ def receive_order_status(event, context):
     logging.basicConfig(level=logging.INFO)
     logging.info("""This Function was triggered by messageId {} published at {}
         """.format(context.event_id, context.timestamp))
-    project_id = os.environ.get('PROJET_ID', 'Specified environment variable is not set.')
+    project_id = os.environ.get('PROJECT_ID', 'Specified environment variable is not set.')
     data = json.loads(base64.b64decode(event['data']).decode('utf-8'))
     event_type = event['attributes'].get("event_type")
     create_topic(project=project_id, topic="order_status_user")
