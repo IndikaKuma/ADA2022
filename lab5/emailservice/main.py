@@ -11,8 +11,8 @@ def send_email(request):
         subject=request_json['subject'],
         html_content=request_json['message']
     )
-
-    sg = SendGridAPIClient()
+    # https://docs.sendgrid.com/ui/account-and-settings/api-keys
+    sg = SendGridAPIClient(os.environ['SENDGRID_API_KEY'])
     try:
         response = sg.send(message)
         return f"An email was sent to {request_json['to']}"

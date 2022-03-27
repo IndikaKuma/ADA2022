@@ -5,7 +5,7 @@ services:
       context: ./inventoryservice_ps
     container_name: inventoryservice_ps_ct
     environment:
-      - project_id=ada2020-305519
+      - project_id=ada2022-341617
     ports:
       - "5000:5000"
       
@@ -14,7 +14,7 @@ services:
       context: ./orderrecordservice_ps
     container_name: orderrecordservice_ps_ct
     environment:
-      - project_id=ada2020-305519    
+      - project_id=ada2022-341617   
     ports:
       - "5001:5000"
       
