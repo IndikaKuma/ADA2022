@@ -12,7 +12,7 @@ def create_topic(project, topic):
         publisher = pubsub_v1.PublisherClient()
         topic_path = publisher.topic_path(project, topic)
         topic = publisher.create_topic(request={"name": topic_path})
-        print("Created topic: {}".format(topic.name))
+        print("Created topic: {}".format(topic.name))  # instead, can check if there is a topic already, and only if not create a new one
     except Exception as ex:
         logging.info(ex)
 

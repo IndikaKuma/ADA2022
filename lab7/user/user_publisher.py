@@ -15,7 +15,7 @@ def create_topic(project_id, topic_id):
         topic = publisher.create_topic(request={"name": topic_path})
         logging.info("Created topic: {}".format(topic.name))
     except Exception as ex:
-        logging.info(ex)
+        logging.info(ex)   # instead, can check if there is a topic already, and only if not create a new one
 
 
 def publish_message(project_id, topic_id, message):

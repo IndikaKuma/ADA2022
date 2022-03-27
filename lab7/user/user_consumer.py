@@ -4,6 +4,7 @@ import time
 from google.cloud import pubsub_v1
 
 from message_puller import MessagePuller
+from user_publisher import create_topic
 
 
 def create_subscription(project_id, topic_id, subscription_id):
@@ -44,5 +45,6 @@ def callback(message):
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
-    create_subscription("ada2020-305519", "order_status_user", "order_status_user_sub")
-    MessagePuller(project="ada2020-305519", subscription="order_status_user_sub")
+    create_topic("ada2022-341617", "order_status_user")
+    create_subscription("ada2022-341617", "order_status_user", "order_status_user_sub")
+    MessagePuller(project="ada2022-341617", subscription="order_status_user_sub")
