@@ -1,0 +1,28 @@
+version: '3.9'
+services:  
+  api_gatway:
+    image: devopsfaith/krakend:2.0.0
+    container_name: api_gatway_ct
+    volumes:
+      - ./krakend:/etc/krakend/
+    depends_on:
+      - inventoryservice_ps
+      - orderrecordservice_ps
+    ports:
+      - "8080:8081"
+  inventoryservice_ps:
+    build:
+      context: ./../inventoryservice_ps
+    container_name: inventoryservice_ps_ct
+    environment:
+      - project_id=ada2022-341617
+    ports:
+      - "5000:5000"      
+  orderrecordservice_ps:
+    build:
+      context: ./../orderrecordservice_ps
+    container_name: orderrecordservice_ps_ct
+    environment:
+      - project_id=ada2022-341617    
+    ports:
+      - "5001:5000"
