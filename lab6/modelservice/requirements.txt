@@ -1,6 +1,7 @@
 flask
 pandas
 keras
+tensorflow
 numpy
 h5py
 six
