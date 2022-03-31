@@ -1,0 +1,56 @@
+{ 
+  "$schema": "http://www.krakend.io/schema/v3.json",
+  "version": 3,
+  "output_encoding": "json",
+  "name": "DiabetesPredictor",
+  "port": 8081,
+  "endpoints": [
+    {
+      "endpoint": "/model/{action}",
+      "method": "GET",
+      "output_encoding": "json",
+      "querystring_params": [
+        "input"
+      ],
+      "timeout": "200000ms",
+      "backend": [
+        {
+          "url_pattern": "/diabetes_predictor/qstr",
+          "encoding": "json",
+          "method": "GET",
+          "extra_config": {
+            "validation/cel": [
+              {
+                "check_expr": "req_params.Action.matches('predict')"
+              }
+            ]
+          },
+          "is_collection": true,
+          "mapping": {
+            "collection": "mypredictions"
+          },
+          "host": [
+            "http://diabetes_predictor_service_ct:5000/"
+          ],
+          "disable_host_sanitize": false
+        },
+        {
+          "url_pattern": "/train_diabetes_predictor",
+          "encoding": "json",
+          "method": "POST",
+          "extra_config": {
+            "validation/cel": [
+              {
+                "check_expr": "req_params.Action.matches('train')"
+              }
+            ]
+          },
+          "host": [
+            "https://us-central1-ada2020-305519.cloudfunctions.net/"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    }
+  ]
+}

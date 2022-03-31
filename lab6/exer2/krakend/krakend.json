@@ -1,0 +1,48 @@
+{
+  "$schema": "http://www.krakend.io/schema/v3.json",
+  "version": 3,
+  "output_encoding": "json",
+  "name": "SRouter",
+  "port": 8081,
+  "endpoints": [
+    {
+      "endpoint": "/router/{category}/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/orders/{id}",
+          "encoding": "json",
+          "method": "GET",
+          "host": [
+            "http://order_record_service_ct:5000/"
+          ],
+          "extra_config": {
+            "validation/cel": [
+              {
+                "check_expr": "req_params.Category.matches('order')"
+              }
+            ]
+          },
+          "disable_host_sanitize": false
+        },
+        {
+          "url_pattern": "/products/{id}",
+          "encoding": "json",
+          "method": "GET",
+          "host": [
+            "http://inventory_service_ct:5000/"
+          ],
+          "extra_config": {
+            "validation/cel": [
+              {
+                "check_expr": "req_params.Category.matches('product')"
+              }
+            ]
+          },
+          "disable_host_sanitize": false
+        }
+      ]
+    }
+  ]
+}
