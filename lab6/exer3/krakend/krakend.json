@@ -46,7 +46,7 @@
             ]
           },
           "host": [
-            "https://us-central1-ada2020-305519.cloudfunctions.net/"
+            "https://us-central1-ada2022-341617.cloudfunctions.net/"
           ],
           "disable_host_sanitize": false
         }
