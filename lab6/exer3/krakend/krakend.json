@@ -9,7 +9,7 @@
       "endpoint": "/model/{action}",
       "method": "GET",
       "output_encoding": "json",
-      "querystring_params": [
+      "input_query_strings": [
         "input"
       ],
       "timeout": "200000ms",
