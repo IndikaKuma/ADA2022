@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   api_gatway:
-    image: devopsfaith/krakend:1.3
+    image: devopsfaith/krakend:2.0.0
     container_name: api_gatway_ct
     volumes:
       - ./krakend:/etc/krakend/
