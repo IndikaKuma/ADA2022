@@ -58,6 +58,7 @@ class DiabetesPredictor:
             return jsonify(parsed), 200
 
     def predict_from_string(self, str):
+        print(str)
         if self.model is None:
             self.model = load_model('model.h5')
         input2 = StringIO(str)
