@@ -1,0 +1,15 @@
+# Order Approval Process
+main:
+  params: [args]
+  steps:
+    - initGetInvURLVar:
+        assign:
+          - GetInvURL: ${"http://Your_VM_IP:5000/products/" + args.pName}
+    - checkInventory:
+        call: http.get
+        args:
+          url: ${GetInvURL}
+        result: GetInventoryRes
+        next: returnOutput
+    - returnOutput:
+        return: ${GetInventoryRes.body.quantity}

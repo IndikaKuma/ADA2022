@@ -1,0 +1,9 @@
+# Order Approval Process
+- checkInventory:
+    call: http.get
+    args:
+      url: http://Your_VM_IP:5000/products/Laptop
+    result: GetInventoryRes
+    next: returnOutput
+- returnOutput:
+    return: ${GetInventoryRes.body.quantity}
