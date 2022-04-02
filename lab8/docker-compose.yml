@@ -1,0 +1,14 @@
+version: '3.9'
+services:  
+  inventory_service:
+    build:
+      context: ./inventoryservice
+    container_name: inventory_service_ct
+    ports:
+      - "5000:5000"
+  order_record_service:
+    build:
+      context: ./orderrecordservice
+    container_name: order_record_service_ct
+    ports:
+      - "5001:5000"
