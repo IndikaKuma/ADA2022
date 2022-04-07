@@ -28,10 +28,5 @@ def predict_strarg():
     return dp.predict_from_string(request.args.get("input"))
 
 
-@app.route('/diabetes_predictor/qstr', methods=['GET'])
-def predict_strarg():
-    return dp.predict_from_string(request.args.get("input"))
-
-
 dp = DiabetesPredictor()
 app.run(host='0.0.0.0', port=5000)
