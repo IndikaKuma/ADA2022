@@ -15,7 +15,7 @@
           ],
           "disable_host_sanitize": true,
           "extra_config": {
-            "backend/pubsub/subscriber": {
+            "backend/pubsub/publisher": {
               "topic_url": "projects/ada2022-341617/topics/order_req"
             }
           }
