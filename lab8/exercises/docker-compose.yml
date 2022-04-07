@@ -2,25 +2,25 @@ version: '3.9'
 services:  
   inventory_service:
     build:
-      context: ./../lab6/inventoryservice
+      context: ./../../lab6/inventoryservice
     container_name: inventory_service_ct
     ports:
       - "5000:5000"
   order_record_service:
     build:
-      context: ./../lab6/orderrecordservice
+      context: ./../../lab6/orderrecordservice
     container_name: order_record_service_ct
     ports:
       - "5001:5000"
   diabetes_predictor_service:
     build:
-      context: ./lab6/modelservice
+      context: ./../../lab6/modelservice
     container_name: diabetes_predictor_service_ct
     ports:
       - "5002:5000"
   supplier_service:
     build:
-      context: ./lab6/supplierservice
+      context: ./../../lab6/supplierservice
     container_name: supplier_service_ct
     ports:
       - "5003:5000"
