@@ -1,0 +1,55 @@
+{
+  "version": 2,
+  "output_encoding": "json",
+  "name": "OrderApprovalAPI",
+  "port": 8081,
+  "endpoints": [
+    {
+      "endpoint": "/orders",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "host": [
+            "gcppubsub://"
+          ],
+          "disable_host_sanitize": true,
+          "extra_config": {
+            "backend/pubsub/subscriber": {
+              "topic_url": "projects/ada2022-341617/topics/order_req"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/orders",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "20000ms",
+      "backend": [
+        {
+          "host": [
+            "gcppubsub://"
+          ],
+          "disable_host_sanitize": true,
+          "extra_config": {
+            "backend/pubsub/subscriber": {
+              "subscription_url": "projects/ada2022-341617/subscriptions/order_status_user_sub"
+            }
+          }
+        }
+      ],
+      "extra_config": {
+        "proxy": {
+          "static": {
+            "strategy": "incomplete",
+            "data": {
+              "message": "No order status not available yet. Try later"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
