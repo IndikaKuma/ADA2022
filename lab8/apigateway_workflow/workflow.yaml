@@ -1,0 +1,53 @@
+# Order Approval Process
+main:
+  params: [args]
+  steps:
+    - initGetInvURLVar:
+        assign:
+          - GetInvURL: ${"http://ip:5000/products/" + args.pName}
+    - checkInventory:
+        call: http.get
+        args:
+          url: ${GetInvURL}
+        result: GetInventoryRes
+    - conditionalOnInventory:
+        switch:
+          - condition: ${int(args.quantity) >  GetInventoryRes.body.quantity}
+            steps:
+              - rejectOrder:
+                  return: ${"Sorry, we cannot meet your order. The available quantity for the product " + args.pName + " is " +  string(GetInventoryRes.body.quantity)}
+        next: acceptOrder
+    - acceptOrder:
+        call: accept_order_subprocess
+        args:
+          pName: ${args.pName}
+          rQuantity: ${int(args.quantity)}
+        result: output
+    - return_message:
+        return: ${output}
+
+accept_order_subprocess:
+  params: [pName, rQuantity]
+  steps:
+    - initUpdateInvURLVar:
+        assign:
+          - UpdateInvURL: ${"http://ip:5000/products/" + pName +"/quantity"}
+    - updateInventory:
+        call: http.request
+        args:
+          url: ${UpdateInvURL}
+          method: PUT
+          query:
+            value: ${rQuantity}
+        result: UpdateInventoryRes
+    - createOrder:
+        call: http.post
+        args:
+          url: http://ip:5001/orders/
+          body:
+            product_type: ${pName}
+            quantity: ${rQuantity}
+            unit_price: 444.50
+        result: CreateOrderRes
+    - return_order_complete_message:
+        return: ${"An Order was accepted with id " + CreateOrderRes.body.id}
