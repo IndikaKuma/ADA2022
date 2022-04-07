@@ -1,5 +1,7 @@
 Using publisher/subscribe as backends  https://www.krakend.io/docs/backends/pubsub/
 
+First run lab7/user "create_topic_sub.py" to create the topic and subscription needed by the API gateway
+
 Make sure to deploy services (docker compose up) and FaaS function
 Make sure to change the project id
 
