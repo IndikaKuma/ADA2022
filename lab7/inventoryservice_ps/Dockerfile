@@ -10,5 +10,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 # Enviroment Variables - Here use your project id
 ENV project_id your_project_id
-EXPOSE 5000
-CMD ["python3","app.py"]
+#EXPOSE 5000
+CMD ["python3","main.py"]

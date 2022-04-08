@@ -11,5 +11,5 @@ COPY . .
 # Enviroment Variables - Here use your project id
 ENV project_id your_project_id
 #ENV service_uri http://your_vm:5001/
-EXPOSE 5000
-CMD ["python3","app.py"]
+#EXPOSE 5000
+CMD ["python3","main.py"]
