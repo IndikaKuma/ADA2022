@@ -1,0 +1,72 @@
+# ML Workflow
+main:
+  params: [args]
+  steps:
+    - conditionalOnAction:
+        switch:
+          - condition: ${args.action == "train"}
+            next: call_training_subprocess
+          - condition: ${args.action == "predict"}
+            next: call_prediction_subprocess
+        next: returnUnrecognizedAction
+    - call_training_subprocess:
+        call: training_subprocess
+        args:
+          pId:  ${args.p_id}
+          fBucket:  ${args.f_bucket}
+          fName:  ${args.f_name}
+          mBucket:  ${args.m_bucket}
+        result: train_output
+        next: return_message_train
+    - call_prediction_subprocess:
+        call: prediction_subprocess
+        args:
+          pData:  ${args.input}
+        result: predict_output
+        next: return_message_predict
+    - returnUnrecognizedAction:
+        return: ${"Unrecognized Action - " + args.action}
+    - return_message_train:
+        return: ${train_output}
+    - return_message_predict:
+        return: ${predict_output}
+
+training_subprocess:
+  params: [pId, fBucket, fName, mBucket]
+  steps:
+    - trainModel:
+        call: http.post
+        args:
+          url: https://yourfun.cloudfunctions.net/train_diabetes_predictor
+          body:
+            project_id: ${pId}
+            f_bucket: ${fBucket}
+            file_name: ${fName}
+            m_bucket: ${mBucket}
+          timeout: 1800
+        result: TrainModelRes
+    - downloadModel:
+        call: http.request
+        args:
+          url: http://vmip:5002/diabetes_predictor
+          method: PUT
+          body:
+            project_id: ${pId}
+            bucket_name: ${mBucket}
+            model_file: "model.h5"
+        result: DownloadModelRes
+    - return_message1:
+        return: ${TrainModelRes.body.message + " and "+ DownloadModelRes.body.message}
+
+prediction_subprocess:
+  params: [pData]
+  steps:
+    - predictDiabetes:
+        call: http.post
+        args:
+          url: http://vmip:5002/diabetes_predictor/str
+          body:
+            input: ${pData}
+        result: PredictDiabetesRes
+    - return_message2:
+        return: ${"The outcome is "  + string(PredictDiabetesRes.body[0].Outcome)}

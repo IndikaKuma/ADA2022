@@ -1,0 +1,103 @@
+# Order Approval Process
+main:
+  params: [args]
+  steps:
+    - initGetInvURLVar:
+        assign:
+          - GetInvURL: ${"http://VMIP:5000/products/" + args.pName}
+    - checkInventory:
+        try:
+          call: http.get
+          args:
+            url: ${GetInvURL}
+          result: GetInventoryRes
+        except:
+          as: e
+          steps:
+            - known_errors:
+                switch:
+                  - condition: ${not("HttpError" in e.tags)}
+                    return: "Connection problem."
+                  - condition: ${e.code == 404}
+                    next: callInventoryReFillSubProcess
+                  - condition: ${e.code == 403}
+                    return: "Authentication error."
+            - unhandled_exception:
+                raise: ${e}
+        next: conditionalOnInventory
+    - callInventoryReFillSubProcess:
+        call: inventory_refill_subprocess
+        args:
+          pName: ${args.pName}
+          rQuantity: ${args.quantity}
+        result: refill_output
+        next: reCheckInventory
+    - reCheckInventory:
+        call: http.get
+        args:
+          url: ${GetInvURL}
+        result: GetInventoryRes
+    - conditionalOnInventory:
+        switch:
+          - condition: ${args.quantity >  GetInventoryRes.body.quantity}
+            steps:
+              - rejectOrder:
+                  return: ${"Sorry, we cannot meet your order. The available quantity for the product " + args.pName + " is " +  string(GetInventoryRes.body.quantity)}
+        next: acceptOrder
+    - acceptOrder:
+        call: accept_order_subprocess
+        args:
+          pName: ${args.pName}
+          rQuantity: ${args.quantity}
+        result: output
+    - return_message:
+        return: ${output}
+
+inventory_refill_subprocess:
+  params: [pName, rQuantity]
+  steps:
+    - orderFromSupplier:
+        call: http.post
+        args:
+          url: http://VMIP:5003/supplier1/orders/
+          body:
+            item: ${pName}
+            quantity: ${rQuantity}
+            unit_price: 2233.50
+        result: OrderFromSupplierRes
+    - udpateInventory:
+        call: http.post
+        args:
+          url: http://VMIP:5000/products/
+          body:
+            name: ${OrderFromSupplierRes.body.item}
+            quantity: ${OrderFromSupplierRes.body.quantity}
+        result: CreateOrderRes
+    - return_inventory_refill_message:
+        return: ${"The inventory was backfilled for the new product " + OrderFromSupplierRes.body.item}
+
+accept_order_subprocess:
+  params: [pName, rQuantity]
+  steps:
+    - initUpdateInvURLVar:
+        assign:
+          - UpdateInvURL: ${"http://VMIP:5000/products/" + pName +"/quantity"}
+    - updateInventory:
+        call: http.request
+        args:
+          url: ${UpdateInvURL}
+          method: PUT
+          query:
+            value: ${rQuantity}
+        result: UpdateInventoryRes
+    - createOrder:
+        call: http.post
+        args:
+          url: http://VMIP:5001/orders/
+          body:
+            product_type: ${pName}
+            quantity: ${rQuantity}
+            unit_price: 444.50
+        result: CreateOrderRes
+    - return_order_complete_message:
+        return: ${"An Order was accepted with id " + CreateOrderRes.body.id}

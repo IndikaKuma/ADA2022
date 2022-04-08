@@ -1,0 +1,49 @@
+{
+  "version": 3,
+  "output_encoding": "json",
+  "name": "OrderApprovalAPI",
+  "port": 8081,
+  "endpoints": [
+    {
+      "endpoint": "/orders",
+      "method": "POST",
+      "output_encoding": "json",
+	  "input_headers": [
+        "Authorization"
+        ],
+      "backend": [
+        {
+          "url_pattern": "/v1/projects/ada2022-341617/locations/us-central1/workflows/order-approval-process-1/executions",
+          "encoding": "json",
+          "method": "POST",
+          "host": [
+            "https://workflowexecutions.googleapis.com/"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/orders/{eid}",
+      "method": "GET",
+      "output_encoding": "json",
+	  "input_headers": [
+        "Authorization"
+        ],
+      "backend": [
+        {
+          "url_pattern": "/v1/projects/ada2022-341617/locations/us-central1/workflows/order-approval-process-1/executions/{eid}",
+          "encoding": "json",
+          "method": "GET",
+          "host": [
+            "https://workflowexecutions.googleapis.com/"
+          ],
+          "disable_host_sanitize": false,
+          "allow": [
+			  "result"
+		  ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "action": "train",
+  "p_id":"ada2022-341617",
+  "f_bucket":"ada2022_data",
+  "f_name":"pima-indians-diabetes_train.csv",
+  "m_bucket":"ada2022_models"
+}
