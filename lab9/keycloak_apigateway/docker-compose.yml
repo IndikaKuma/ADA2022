@@ -15,7 +15,7 @@ services:
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
   keycloak:
-    image: quay.io/keycloak/keycloak:legacy
+    image: quay.io/keycloak/keycloak:16.1.1
     container_name: keycloak
     environment:
       DB_VENDOR: POSTGRES
@@ -33,7 +33,6 @@ services:
       - 8443:8443
     depends_on:
       - postgres
-
   api_gatway:
     image: devopsfaith/krakend:2.0.0
     container_name: api_gatway_ct
