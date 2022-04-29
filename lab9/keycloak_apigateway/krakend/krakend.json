@@ -17,6 +17,9 @@
       "endpoint": "/ordersinventories/{producttype}/{id}",
       "method": "GET",
       "output_encoding": "json",
+	  "input_headers": [
+        "Authorization"
+        ],
       "extra_config": {
         "auth/validator": {
           "alg": "RS256",
@@ -48,6 +51,9 @@
     {
       "endpoint": "/orders/{id}",
       "method": "GET",
+	  "input_headers": [
+        "Authorization"
+      ],
       "extra_config": {
         "proxy": {
           "sequential": true
