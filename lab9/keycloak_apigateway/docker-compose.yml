@@ -8,8 +8,9 @@ services:
   keycloak:
     image: jboss/keycloak:16.1.1
     container_name: keycloak
+    user: root
     volumes:
-      - .local/keycloak/:/opt/jboss/keycloak/standalone/data/
+      - ./keycloak_data/:/opt/jboss/keycloak/standalone/data/
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
