@@ -1,6 +1,14 @@
 {
   "$schema": "http://www.krakend.io/schema/v3.json",
   "version": 3,
+  "extra_config": {
+        "telemetry/logging": {
+          "level": "DEBUG",
+          "prefix": "[KRAKEND]",
+          "syslog": false,
+          "stdout": true
+        }
+    },
   "output_encoding": "json",
   "name": "InventoryOrderAggregate",
   "port": 8081,
