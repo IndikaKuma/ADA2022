@@ -71,10 +71,11 @@ def check_if_authorize(req):
     result = requests.post(auth_url,
                            headers={'Content-Type': 'application/json',
                                     'Authorization': auth_header})
-    print(result.status_code)
-    print(type(result.status_code))
+    status_code = result.status_code
+    print(status_code)
+    print(type(status_code))
     print(result.json())
-    return result.status_code
+    return int(status_code)
 
 
 app.run(host='0.0.0.0', port=5000, debug=True)
