@@ -73,9 +73,8 @@ def check_if_authorize(req):
                                     'Authorization': auth_header})
     status_code = result.status_code
     print(status_code)
-    print(type(status_code))
     print(result.json())
-    return int(status_code)
+    return status_code
 
 
 app.run(host='0.0.0.0', port=5000, debug=True)
