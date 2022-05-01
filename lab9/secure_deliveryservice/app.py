@@ -71,8 +71,9 @@ def check_if_authorize(req):
     result = requests.post(auth_url,
                            headers={'Content-Type': 'application/json',
                                     'Authorization': auth_header})
-    app.logger.debug(result.status_code)
-    app.logger.debug(result.json())
+    print(result.status_code)
+    print(type(result.status_code))
+    print(result.json())
     return result.status_code
 
 
