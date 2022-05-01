@@ -1,0 +1,14 @@
+version: '3.9'
+services:  
+  userservice:
+    build:
+      context: ./../userservice
+    container_name: userservice_ct
+    ports:
+      - "5000:5000"
+  secure_deliveryservice:
+    build:
+      context: ./../secure_deliveryservice
+    container_name: secure_deliveryservice_ct
+    ports:
+      - "5001:5000"
