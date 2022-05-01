@@ -32,7 +32,7 @@ class User:
                     'auth_token': auth_token
                 }
                 session.close()
-                return make_response(jsonify(responseObject)), 201
+                return make_response(jsonify(responseObject)), 200
             except Exception as e:
                 print(e)
                 responseObject = {
@@ -54,7 +54,6 @@ class User:
         else:
             auth_token = ''
         if auth_token:
-            print(auth_token)
             resp = decode_auth_token(auth_token)
             if not isinstance(resp, str):
                 session = Session()
